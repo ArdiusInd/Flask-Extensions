@@ -5,4 +5,4 @@ from . import expenses_bp
 @expenses_bp.route('/')
 @expenses_bp.route('/home')
 def index():
-    return render_template('index.html')
+    return render_template('expenses/dashboard.html')
