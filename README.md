@@ -7,35 +7,40 @@ Flask Blueprints allow one to build completely independent modules with a catch.
 Example:
    If you have two blueprints a and b where the folder is like:
 
-   a/
-     templates/
-        index.html
-      views.py
-   b/
-      templates/
-         index.html
-      views.py
-   main.py
+>   a/
+>     templates/
+>        index.html
+>      views.py
+>   b/
+>      templates/
+>         index.html
+>      views.py
+>   main.py
 
   In a/views.py:
+```python
       bp_a = Blueprint('a', __name__, template_folder='templates')
 
       @a.route('/')
       def a():
           return render_template('a/index.html')
-
+```
   In b/views.py:
+```python
       bp_b = Blueprint('b', __name__, template_folder='templates')
 
       @a.route('/')
       def a():
           return render_template('b/index.html')
+```
 
 and in the main.py:
+```python
    from a import bp_a
    from b import bp_b
    app = Flask(__name__)
    app.register_blueprint(bp_a, url_prefix='/a')
    app.register_blueprint(bp_b, url_prefix='/b')
+```
 
-Then the /b/index.html file in b/templates will never be used since it will find index.html in the /a/index.html path first.  This is why they recommend adding the blueprint directory as 'a/templates/a' and 'b/templates/b' to ensure uniqueness along all paths.
+Then the index.html file in b/templates will never be used since it will find index.html in the /a/templates path first.  This is why they recommend adding the blueprint directory as 'a/templates/a' and 'b/templates/b' to ensure uniqueness along all paths.
